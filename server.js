@@ -19,6 +19,15 @@ function doOnRequest(request, response){
     response.end()
     return
   }
+  else if(request.method === 'GET' && request.url === '/style.css'){
+    let pathName = path.join(__dirname, 'style.css');
+    console.log(pathName)
+    // fs.createReadStream()
+    const css = fs.readFileSync(pathName,{encoding: "utf-8"})
+    response.write(css)
+    response.end()
+    return
+  }
   else if (request.method === 'POST' && request.url === '/sayHi') {
     // code here...
     let pathName = path.join(__dirname, 'hi_log.txt');
@@ -51,7 +60,11 @@ function doOnRequest(request, response){
   else {
     // Handle 404 error: page not found
     // code here...
-    
+
+    response.writeHead(404)
+    response.write("Error: Not Found")
+    response.end()
+    return
   }
 }
 
